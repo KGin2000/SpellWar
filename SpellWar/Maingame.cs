@@ -109,12 +109,12 @@ namespace SpellWar {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ball = Content.Load<Texture2D>("Bullet_Esus");
-            ball2 = Content.Load<Texture2D>("East_ball");
+            ball2 = Content.Load<Texture2D>("Bullet_Zeus");
             gameFont = Content.Load<SpriteFont>("gfont");
-            background = Content.Load<Texture2D>("background");
+            background = Content.Load<Texture2D>("State");
 
             //อันนี้ตัวอย่างใส่ตัวละครนะ ก็คือ วาดใส่ตรงนี้ได้เลย แทน wizzard
-            wizzard = Content.Load<Texture2D>("WizSprite_183");
+            wizzard = Content.Load<Texture2D>("Zeus");
             voodoo = Content.Load<Texture2D>("Chiva");
             heart = Content.Load<Texture2D>("heart");
 
@@ -315,7 +315,7 @@ namespace SpellWar {
             Singleton.Instance.leftSideMove = 2;
             Singleton.Instance.rightSideMove = 2;
             Singleton.Instance.count = 0;
-            Singleton.Instance.timer = 30;
+            Singleton.Instance.timer = 5;
             canWalk = true;
             Singleton.Instance.ballVisible = false;
             Singleton.Instance.ball2Visible = false;
@@ -380,12 +380,12 @@ namespace SpellWar {
                 player1.Draw(spriteBatch);
             }
 
-                spriteBatch.DrawString(gameFont, "" + (Math.Floor(Singleton.Instance.timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
-                spriteBatch.DrawString(gameFont, "WalkSlot " + player1.WalkSlot, new Vector2(3,100),Color.Red);
-                spriteBatch.DrawString(gameFont, "WalkSlot " + player2.WalkSlot, new Vector2(1250, 100), Color.Red);
+                spriteBatch.DrawString(gameFont, "" + (Math.Floor(Singleton.Instance.timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Black);
+                //spriteBatch.DrawString(gameFont, "WalkSlot " + player1.WalkSlot, new Vector2(3,100),Color.Red);
+                //spriteBatch.DrawString(gameFont, "WalkSlot " + player2.WalkSlot, new Vector2(1250, 100), Color.Red);
 
-            spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
-            spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
+            //spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
+            //spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
             if (Singleton.Instance.ballVisible) {
                 voBall.Draw(spriteBatch);
                 
