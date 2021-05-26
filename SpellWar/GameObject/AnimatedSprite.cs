@@ -16,7 +16,7 @@ namespace SpellWar.gameObject {
 
         //slow down fram animation
         private int timeSinceLastFrame = 0;
-        private int milliseconPerFrame = 150;
+        private int milliseconPerFrame = 500;
 
         public AnimatedSprite(Texture2D texture, int rows, int columns)
         {

@@ -14,7 +14,7 @@ namespace SpellWar {
         Texture2D ball; Vector2 ball2pos = Vector2.Zero; // The position of the ball in 2D space (X,Y)
         Texture2D ball2; Vector2 ball1pos = Vector2.Zero;
         Texture2D wizzard; //Vector2 wizzardPos = Vector2.Zero;
-        Texture2D voodoo; //Vector2 voodooPos = Vector2.Zero;
+        Texture2D voodoo;  //Vector2 voodooPos  = Vector2.Zero;
         Texture2D background, heart;
         GameObject player1, player2,item1,item2;
         Vector2 coor, virtualPos;
@@ -56,18 +56,18 @@ namespace SpellWar {
           
 
             rect = new Texture2D(graphics.GraphicsDevice, 30, 450);
-            virtualBox = new Texture2D(graphics.GraphicsDevice, 160, 300);
-            virtualShoot = new Texture2D(graphics.GraphicsDevice, 160, 300);
+            virtualBox = new Texture2D(graphics.GraphicsDevice, 150, 190);
+            virtualShoot = new Texture2D(graphics.GraphicsDevice, 150, 190);
             Color[] data = new Color[30 * 450];
-            Color[] color = new Color[160 * 300];
-            Color[] color2 = new Color[160 * 300];
-            for (int i = 0; i < data.Length; ++i) {
+            Color[] color = new Color[150 * 190];
+            Color[] color2 = new Color[150 * 190];
+            /*for (int i = 0; i < data.Length; ++i) {
                 data[i] = Color.Chocolate;
 
-            }
+            }*/
             rect.SetData(data);
             for (int i = 0; i < color.Length; ++i) {
-                color[i] = Color.Green;
+                color[i] = Color.Yellow;
             }
             virtualBox.SetData(color);
 
@@ -89,14 +89,14 @@ namespace SpellWar {
 
             switch (side) {
                 case 0:
-                    Singleton.Instance.isLeftTurn = true;
+                    Singleton.Instance.isLeftTurn  = true;
                     break;
                 case 1:
                     Singleton.Instance.isRightTurn = true;
                     break;
             }
 
-            this.graphics.PreferredBackBufferWidth = 1600;
+            this.graphics.PreferredBackBufferWidth  = 1600;
             this.graphics.PreferredBackBufferHeight = 1300;
             graphics.ApplyChanges();
 
@@ -123,7 +123,7 @@ namespace SpellWar {
 
             player1 = new Player(voodoo, heart) {
                 Name = "Player1",
-                Health = 3,
+                Health = 9,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 183, 183)
@@ -132,7 +132,7 @@ namespace SpellWar {
           
             player2 = new Player(wizzard, heart) {
                 Name = "Player2",
-                Health = 3,
+                Health = 9,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.rightArea[2], 920, 183, 183)
@@ -239,7 +239,7 @@ namespace SpellWar {
 
           
             //สุ่มไอเท็ม
-            if(Singleton.Instance.turnCount % 2 == 0) {
+            /*if(Singleton.Instance.turnCount % 2 == 0) {
                 int x;
                 do {
                     x = itemRand.Next(0, 4);
@@ -302,7 +302,7 @@ namespace SpellWar {
                    
                     gameObjects.Add(item2);
                 }
-            }
+            }*/
 
           
 
@@ -399,19 +399,19 @@ namespace SpellWar {
             spriteBatch.Draw(rect, coor, Color.White);
             if (Singleton.Instance.virtualVisible) {
                 if (Singleton.Instance.isLeftTurn) {
-                    spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] , 700), Color.White * 0.5f);
+                    spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] , 750), Color.White * 0.5f);
                 }
                 else if (Singleton.Instance.isRightTurn) {
-                    spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 700), Color.White * 0.5f);
+                    spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 750), Color.White * 0.5f);
                 }
                  
             }
             if (Singleton.Instance.virtualShootVisible) {
                 if (Singleton.Instance.isLeftMove && !Singleton.Instance.rightChooseShoot) {
-                    spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideShoot], 700), Color.White * 0.5f);
+                    spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideShoot], 750), Color.White * 0.5f);
                 }
                 else if (Singleton.Instance.isRightMove && !Singleton.Instance.leftChooseShoot) {
-                    spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideShoot], 700), Color.White * 0.5f);
+                    spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideShoot],750), Color.White * 0.5f);
                 }
             }
            
