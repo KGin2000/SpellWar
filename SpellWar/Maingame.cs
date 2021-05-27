@@ -13,8 +13,10 @@ namespace SpellWar {
         SpriteBatch spriteBatch;
         Texture2D ball; Vector2 ball2pos = Vector2.Zero; // The position of the ball in 2D space (X,Y)
         Texture2D ball2; Vector2 ball1pos = Vector2.Zero;
-        Texture2D wizzard; //Vector2 wizzardPos = Vector2.Zero;
-        Texture2D voodoo;  //Vector2 voodooPos  = Vector2.Zero;
+        Texture2D wizzard;
+        Texture2D voodoo;
+        Texture2D shivaDead;
+        Texture2D zeusDead;
         Texture2D background, heart;
         GameObject player1, player2,item1,item2;
         Vector2 coor, virtualPos;
@@ -61,13 +63,10 @@ namespace SpellWar {
             Color[] data = new Color[30 * 450];
             Color[] color = new Color[150 * 190];
             Color[] color2 = new Color[150 * 190];
-            /*for (int i = 0; i < data.Length; ++i) {
-                data[i] = Color.Chocolate;
-
-            }*/
+  
             rect.SetData(data);
             for (int i = 0; i < color.Length; ++i) {
-                color[i] = Color.Yellow;
+                color[i] = Color.Green;
             }
             virtualBox.SetData(color);
 
@@ -113,17 +112,20 @@ namespace SpellWar {
             gameFont = Content.Load<SpriteFont>("gfont");
             background = Content.Load<Texture2D>("State");
 
-            //อันนี้ตัวอย่างใส่ตัวละครนะ ก็คือ วาดใส่ตรงนี้ได้เลย แทน wizzard
             wizzard = Content.Load<Texture2D>("Zeus");
             voodoo = Content.Load<Texture2D>("Chiva");
             heart = Content.Load<Texture2D>("heart");
+
+            shivaDead = Content.Load<Texture2D>("Shiva_Dead");
+            zeusDead = Content.Load<Texture2D>("Zeus_Dead");
+
 
 
 
 
             player1 = new Player(voodoo, heart) {
                 Name = "Player1",
-                Health = 9,
+                Health = 1,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 183, 183)
@@ -132,7 +134,7 @@ namespace SpellWar {
           
             player2 = new Player(wizzard, heart) {
                 Name = "Player2",
-                Health = 9,
+                Health = 1,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.rightArea[2], 920, 183, 183)
@@ -166,9 +168,11 @@ namespace SpellWar {
             if(Singleton.Instance.timer > 0)
                 Singleton.Instance.timer -= gameTime.ElapsedGameTime.TotalSeconds;
             if(player1.Health <= 0) {
+                this.player1.IsActive = false;
                 Singleton.Instance.gameState = Singleton.GameState.PLAYER2_WIN;     
             }
             if (player2.Health <= 0) {
+                this.player2.IsActive = false;
                 Singleton.Instance.gameState = Singleton.GameState.PLAYER1_WIN;
             }
 
@@ -183,7 +187,7 @@ namespace SpellWar {
 
                 }
                 
-                // Check ว่าถ้าบอลตกถึงพื้นก็จะให้ สลับฝั่ง
+                // Swap Turn
                 if (wizBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
                     
                     wizBall.Position = new Vector2(wizBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height);
@@ -209,13 +213,6 @@ namespace SpellWar {
 
             }
 
-            if(Singleton.Instance.gameState == Singleton.GameState.PLAYER1_WIN){
-               //TODO When Player1 win the game...
-            }
-            if (Singleton.Instance.gameState == Singleton.GameState.PLAYER2_WIN){
-                //TODO When Player2 win the game...
-            }
-
 
             Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
@@ -237,85 +234,13 @@ namespace SpellWar {
             gameObjects.Add(voBall);
             gameObjects.Add(wizBall);
 
-          
-            //สุ่มไอเท็ม
-            /*if(Singleton.Instance.turnCount % 2 == 0) {
-                int x;
-                do {
-                    x = itemRand.Next(0, 4);
-                } while (x == 2);
-                 
-            int y = itemRand.Next(0,2);
-            int type = itemRand.Next(0,3);
-                type = 2;
-               
-
-
-                if (y == 0) {
-                    switch (type) {
-                        case 0:
-                            item1 = new HealthItem(ball) {
-                                Name = "health",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
-                            };
-                            break;
-                        case 1:
-                            item1 = new walkSlotItem(ball) {
-                                Name = "walk",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
-                            };
-                            break;
-                        case 2:
-                            item1 = new powerItem(ball) {
-                                Name = "power",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
-                            };
-                            break;
-                       
-                    }
-                    gameObjects.Add(item1);
-                    
-                }
-                else {
-                    switch (type) {
-                        case 0:
-                            item2 = new HealthItem(ball) {
-                                Name = "health",
-                                Position = new Vector2(Singleton.Instance.rightArea[x], 800)
-                            };
-
-                       break;
-                        case 1:
-                            item2 = new walkSlotItem(ball) {
-                                Name = "walk",
-                                Position = new Vector2(Singleton.Instance.rightArea[x], 800)
-                            };
-                            break;
-                        case 2:
-                            item2 = new powerItem(ball) {
-                                Name = "power",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
-                            };
-                            break;
-                       
-                    }
-                   
-                    gameObjects.Add(item2);
-                }
-            }*/
-
-          
-
-
-
-
             virtualPos = Vector2.Zero;
             Singleton.Instance.isRightMove = false;
             Singleton.Instance.isLeftMove = false;
             Singleton.Instance.leftSideMove = 2;
             Singleton.Instance.rightSideMove = 2;
             Singleton.Instance.count = 0;
-            Singleton.Instance.timer = 5;
+            Singleton.Instance.timer = 10;
             canWalk = true;
             Singleton.Instance.ballVisible = false;
             Singleton.Instance.ball2Visible = false;
@@ -330,7 +255,6 @@ namespace SpellWar {
             player2.WalkSlot++;
 
 
-            
             //set ball position according to player position this is open to change screen resolution.
             ball2pos = player2.Position;
             ball1pos = player1.Position;
@@ -344,48 +268,32 @@ namespace SpellWar {
 
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.MediumPurple);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
             spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
 
-            if(item1 != null) {
-                item1.Draw(spriteBatch);
-            }
-            if(item2 != null) {
-                item2.Draw(spriteBatch);
-            }
-
-
-          /*  Texture2D rect = new Texture2D(graphics.GraphicsDevice, 80, 30);
-
-            Color[] data = new Color[80 * 30];
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
-            rect.SetData(data);
-
-            
-            spriteBatch.Draw(rect, player1.getRect, Color.White);
-            spriteBatch.Draw(rect, player2.getRect, Color.White);*/
 
             //Draw if not collide
             if (!isCollision(voBall,player2, player1.Power)) {
-
-
-                player2.Draw(spriteBatch);
+                if (this.IsActive)
+                {
+                    player2.Draw(spriteBatch);
+                }
             }
 
 
             if (!isCollision(wizBall, player1, player2.Power)) {
+                if (this.IsActive)
+                {
+                    player1.Draw(spriteBatch);
 
-                player1.Draw(spriteBatch);
+                }
+
             }
 
                 spriteBatch.DrawString(gameFont, "" + (Math.Floor(Singleton.Instance.timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Black);
-                //spriteBatch.DrawString(gameFont, "WalkSlot " + player1.WalkSlot, new Vector2(3,100),Color.Red);
-                //spriteBatch.DrawString(gameFont, "WalkSlot " + player2.WalkSlot, new Vector2(1250, 100), Color.Red);
-
-            //spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
-            //spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
+   
             if (Singleton.Instance.ballVisible) {
                 voBall.Draw(spriteBatch);
                 
@@ -396,26 +304,43 @@ namespace SpellWar {
             }
             
            
-            spriteBatch.Draw(rect, coor, Color.White);
             if (Singleton.Instance.virtualVisible) {
                 if (Singleton.Instance.isLeftTurn) {
+                    spriteBatch.DrawString(gameFont, "Zeus Move", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
                     spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] , 750), Color.White * 0.5f);
                 }
                 else if (Singleton.Instance.isRightTurn) {
+                    spriteBatch.DrawString(gameFont, "Shiva Move", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
                     spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 750), Color.White * 0.5f);
                 }
                  
             }
             if (Singleton.Instance.virtualShootVisible) {
                 if (Singleton.Instance.isLeftMove && !Singleton.Instance.rightChooseShoot) {
+                    spriteBatch.DrawString(gameFont, "Zeus Attack", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
                     spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideShoot], 750), Color.White * 0.5f);
                 }
                 else if (Singleton.Instance.isRightMove && !Singleton.Instance.leftChooseShoot) {
+                    spriteBatch.DrawString(gameFont, "Shiva Attack", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
                     spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideShoot],750), Color.White * 0.5f);
                 }
             }
-           
-            
+
+            if (Singleton.Instance.gameState == Singleton.GameState.PLAYER1_WIN)
+            {
+                //TODO When Player1 win the game...
+                spriteBatch.DrawString(gameFont, "Shiva Win", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
+                spriteBatch.Draw(zeusDead, this.player2.Position, Color.White);
+
+            }
+            if (Singleton.Instance.gameState == Singleton.GameState.PLAYER2_WIN)
+            {
+                //TODO When Player2 win the game...
+                spriteBatch.DrawString(gameFont, "Zeus Win", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
+                spriteBatch.Draw(shivaDead, this.player1.Position, Color.White);
+
+
+            }
 
             spriteBatch.End();
 
@@ -435,11 +360,5 @@ namespace SpellWar {
                 return false;
             }
         }
-
-        
-
-
-      
-
     }
 }

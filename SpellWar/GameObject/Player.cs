@@ -38,7 +38,6 @@ namespace SpellWar.gameObject{
                 Singleton.Instance.virtualVisible = true;
 
                 if (!Singleton.Instance.isRightMove) {
-                    ///Console.WriteLine("right isnt move");
 
                     if ( this.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
@@ -66,6 +65,7 @@ namespace SpellWar.gameObject{
                     if ( this.Name.Equals("Player2") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
                         //After right move
                         Singleton.Instance.isRightMove = true;
+                        Singleton.Instance.timer = 10;
                         if (Singleton.Instance.count < 0) {
                             this.WalkSlot -= Singleton.Instance.count * -1;
                         }
@@ -117,7 +117,7 @@ namespace SpellWar.gameObject{
                 }
                 if (Singleton.Instance.timer <= 0) {
                     Singleton.Instance.isRightMove = true;
-                    Singleton.Instance.timer = 3;
+                    Singleton.Instance.timer = 10;
                 }
 
 
@@ -164,7 +164,8 @@ namespace SpellWar.gameObject{
 
                     if (this.Name.Equals("Player1") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
                         //After left move
-                            Singleton.Instance.isLeftMove = true;
+                        Singleton.Instance.isLeftMove = true;
+                        Singleton.Instance.timer = 10;
 
                         if (Singleton.Instance.count < 0) {
                             this.WalkSlot -= Singleton.Instance.count * -1;
@@ -223,7 +224,7 @@ namespace SpellWar.gameObject{
                 }
                 if (Singleton.Instance.timer <= 0) {
                     Singleton.Instance.isLeftMove = true;
-                    Singleton.Instance.timer = 3;
+                    Singleton.Instance.timer = 10;
                 }
 
 
@@ -239,7 +240,11 @@ namespace SpellWar.gameObject{
         public override void Draw(SpriteBatch spriteBatch) {
 
             //spriteBatch.Draw(texture, this.Position, Color.White);
-            animated.Draw(spriteBatch,this.Position , 2);
+            if (this.IsActive)
+            {
+                animated.Draw(spriteBatch, this.Position, 2);
+
+            }
 
             //Draw Heart
             if (this.Name.Equals("Player1")) {
@@ -271,16 +276,6 @@ namespace SpellWar.gameObject{
                 this.Position = new Vector2(Singleton.Instance.rightArea[2], 920 - 170);
             }
             
-            
-            
-            if(Power > 1 && turn <1) {
-                turn++;
-            }
-            else if(Power >1) {
-                Power = 1;
-                turn = 0;
-            }
-           
         }
 
 

@@ -10,11 +10,11 @@ namespace SpellWar.gameObject {
    public class GameObject {
        
             Texture2D _texture;
-             Vector2 position;
+            public Vector2 position;
             public Color color;
             public float Rotation;
             public Vector2 Scale;
-            public Vector2 Velocity;
+            public float Velocity;
             public string Name;
             public bool IsActive;
             Rectangle hitBox;

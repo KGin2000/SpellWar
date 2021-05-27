@@ -56,6 +56,13 @@
 /processorParam:TextureFormat=Compressed
 /build:gfont.spritefont
 
+#begin gfont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:gfont.spritefont
+
 #begin heart.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -67,6 +74,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:heart.png
+
+#begin Shiva_Dead.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Shiva_Dead.png
 
 #begin State.png
 /importer:TextureImporter
@@ -91,4 +110,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Zeus.png
+
+#begin Zeus_Dead.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Zeus_Dead.png
 
