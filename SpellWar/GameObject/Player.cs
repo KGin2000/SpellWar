@@ -41,9 +41,6 @@ namespace SpellWar.gameObject{
 
                     if ( this.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
-                        
-                        
-
                         if (Singleton.Instance.rightSideMove > 0 && WalkSlot + (Singleton.Instance.count - 1) >= 0) {
                             Singleton.Instance.rightSideMove--;
                             Singleton.Instance.count--;
@@ -208,9 +205,7 @@ namespace SpellWar.gameObject{
                         }
 
                         if ((this.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) {
-                            //After left move
-                            //Console.WriteLine(this.Name);
-                            
+                            //After left move                            
                             Singleton.Instance.rightChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
                             Singleton.Instance.kState = 2;
@@ -257,7 +252,7 @@ namespace SpellWar.gameObject{
 
             else {
                 for (int i = 0; i < this.Health; i++) {
-                    spriteBatch.Draw(heart, new Vector2((1600 - heart.Width) - (i * heart.Width), 3), Color.White);
+                    spriteBatch.Draw(heart, new Vector2((1600 - heart.Width) - (i * heart.Width), 3), Color.Blue * 0.9f);
                 }
 
             }

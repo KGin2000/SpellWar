@@ -13,10 +13,10 @@ namespace SpellWar {
         SpriteBatch spriteBatch;
         Texture2D ball; Vector2 ball2pos = Vector2.Zero; // The position of the ball in 2D space (X,Y)
         Texture2D ball2; Vector2 ball1pos = Vector2.Zero;
-        Texture2D wizzard;
-        Texture2D voodoo;
-        Texture2D shivaDead;
-        Texture2D zeusDead;
+        Texture2D zeus;
+        Texture2D shiva;
+        Texture2D shivaDead, zeusDead;
+        Texture2D select, target;
         Texture2D background, heart;
         GameObject player1, player2,item1,item2;
         Vector2 coor, virtualPos;
@@ -27,7 +27,7 @@ namespace SpellWar {
         SpriteFont gameFont;
         
         
-        GameObject voBall, wizBall;
+        GameObject zeusBall, shivaBall;
         List<GameObject> gameObjects;
         float[] leftAngle,rightAngle;
         bool _isDecreaseHealth, canWalk;
@@ -107,34 +107,36 @@ namespace SpellWar {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            ball = Content.Load<Texture2D>("Bullet_Esus");
+            ball = Content.Load<Texture2D>("Bullet_Shiva");
             ball2 = Content.Load<Texture2D>("Bullet_Zeus");
             gameFont = Content.Load<SpriteFont>("gfont");
             background = Content.Load<Texture2D>("State");
 
-            wizzard = Content.Load<Texture2D>("Zeus");
-            voodoo = Content.Load<Texture2D>("Chiva");
+            zeus = Content.Load<Texture2D>("Zeus");
+            shiva = Content.Load<Texture2D>("Chiva");
             heart = Content.Load<Texture2D>("heart");
 
             shivaDead = Content.Load<Texture2D>("Shiva_Dead");
             zeusDead = Content.Load<Texture2D>("Zeus_Dead");
 
+            select = Content.Load<Texture2D>("Select");
+            target = Content.Load<Texture2D>("Target");
 
 
 
 
-            player1 = new Player(voodoo, heart) {
+            player1 = new Player(shiva, heart) {
                 Name = "Player1",
-                Health = 1,
+                Health = 3,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 183, 183)
 
         };
           
-            player2 = new Player(wizzard, heart) {
+            player2 = new Player(zeus, heart) {
                 Name = "Player2",
-                Health = 1,
+                Health = 3,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.rightArea[2], 920, 183, 183)
@@ -188,9 +190,9 @@ namespace SpellWar {
                 }
                 
                 // Swap Turn
-                if (wizBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
+                if (shivaBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
                     
-                    wizBall.Position = new Vector2(wizBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height);
+                    shivaBall.Position = new Vector2(shivaBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height);
                     Singleton.Instance.kState = 0;
                     t2 = 0;
                     Singleton.Instance.isRightTurn = false;
@@ -198,9 +200,9 @@ namespace SpellWar {
                     Reset();
                 }
 
-                if (voBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball2.Height) {
+                if (zeusBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball2.Height) {
                     
-                    voBall.Position = new Vector2( voBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball2.Height);
+                    zeusBall.Position = new Vector2( zeusBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball2.Height);
                     Singleton.Instance.kState = 0;
                     t2 = 0;
                     Singleton.Instance.isLeftTurn = false;
@@ -223,16 +225,16 @@ namespace SpellWar {
         public void Reset() {
 
             Singleton.Instance.turnCount++;
-            voBall = new Ball(ball) {
-                Name = "voBall"
+            zeusBall = new Ball(ball) {
+                Name = "zeusBall"
 
             };
-            wizBall = new Ball(ball2) {
-                Name = "wizBall"
+            shivaBall = new Ball(ball2) {
+                Name = "shivaBall"
 
             };
-            gameObjects.Add(voBall);
-            gameObjects.Add(wizBall);
+            gameObjects.Add(zeusBall);
+            gameObjects.Add(shivaBall);
 
             virtualPos = Vector2.Zero;
             Singleton.Instance.isRightMove = false;
@@ -275,7 +277,7 @@ namespace SpellWar {
 
 
             //Draw if not collide
-            if (!isCollision(voBall,player2, player1.Power)) {
+            if (!isCollision(zeusBall,player2, player1.Power)) {
                 if (this.IsActive)
                 {
                     player2.Draw(spriteBatch);
@@ -283,7 +285,7 @@ namespace SpellWar {
             }
 
 
-            if (!isCollision(wizBall, player1, player2.Power)) {
+            if (!isCollision(shivaBall, player1, player2.Power)) {
                 if (this.IsActive)
                 {
                     player1.Draw(spriteBatch);
@@ -295,11 +297,11 @@ namespace SpellWar {
                 spriteBatch.DrawString(gameFont, "" + (Math.Floor(Singleton.Instance.timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Black);
    
             if (Singleton.Instance.ballVisible) {
-                voBall.Draw(spriteBatch);
+                zeusBall.Draw(spriteBatch);
                 
             }
             else if (Singleton.Instance.ball2Visible){
-                wizBall.Draw(spriteBatch);
+                shivaBall.Draw(spriteBatch);
                 
             }
             
@@ -307,22 +309,22 @@ namespace SpellWar {
             if (Singleton.Instance.virtualVisible) {
                 if (Singleton.Instance.isLeftTurn) {
                     spriteBatch.DrawString(gameFont, "Zeus Move", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
-                    spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] , 750), Color.White * 0.5f);
+                    spriteBatch.Draw(select, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] , 550), Color.White);
                 }
                 else if (Singleton.Instance.isRightTurn) {
                     spriteBatch.DrawString(gameFont, "Shiva Move", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
-                    spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 750), Color.White * 0.5f);
+                    spriteBatch.Draw(select, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 550), Color.White);
                 }
                  
             }
             if (Singleton.Instance.virtualShootVisible) {
                 if (Singleton.Instance.isLeftMove && !Singleton.Instance.rightChooseShoot) {
                     spriteBatch.DrawString(gameFont, "Zeus Attack", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
-                    spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideShoot], 750), Color.White * 0.5f);
+                    spriteBatch.Draw(target, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideShoot], 750), Color.White);
                 }
                 else if (Singleton.Instance.isRightMove && !Singleton.Instance.leftChooseShoot) {
                     spriteBatch.DrawString(gameFont, "Shiva Attack", new Vector2((graphics.PreferredBackBufferWidth / 2) - 120, 150), Color.Black);
-                    spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideShoot],750), Color.White * 0.5f);
+                    spriteBatch.Draw(target, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideShoot], 750), Color.White);
                 }
             }
 
